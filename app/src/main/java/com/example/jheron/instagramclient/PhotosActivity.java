@@ -91,12 +91,23 @@ public class PhotosActivity extends ActionBarActivity {
                         InstagramPhoto photo = new InstagramPhoto();
                         // Author Name { “data”: [x] => “user”=> “username” }
                         photo.username = photoJSON.getJSONObject("user").getString("username");
+                        // Author Photo URL { “data”: [x] => “user”=> "profile_picture" }
+                        photo.userPhotoURL = photoJSON.getJSONObject("user").getString("profile_picture");
                         // Caption: { “data”: [x] => “caption” => “text”}
-                        photo.caption = photoJSON.getJSONObject("caption").getString("text");
+                        photo.caption = attemptGetCaption(photoJSON);
+                        // if (photoJSON.optJSONObject("caption") != null) {
+                        //    photo.caption = photoJSON.getJSONObject("caption").getString("text");
+                        //}
                         // URL: { “data”: [x] => “images” => “standard resolution” => “url” }
                         photo.imageURL = photoJSON.getJSONObject("images").getJSONObject("standard_resolution").getString("url");
-                        // Type:{ “data”: [x] => “type } (“image or “video”)
-                        // photo.type = photoJSON.getJSONObject("type").getString("text");
+                        // Type:{ "data": [x] => "caption" => "created_time" }
+                        photo.datetime = photoJSON.getJSONObject("caption").getInt("created_time");
+                        // Type:{ “data”: [x] => “type" } (“image or “video”)
+                        photo.type = photoJSON.getString("type");
+                        // Comment:{ "data": [x] => "comments" => "data": [y] => "text"}
+                        photo.comment = attemptGetComment(photoJSON);
+                        // Commenter:{ "data": [x] => "comments" => "data": [y] => "text"}
+                        photo.commenter = attemptGetCommenter(photoJSON);
                         // Image Height:{ "data": [x] => "images" => "standard_resolution" => "height" }
                         photo.imageHeight = photoJSON.getJSONObject("images").getJSONObject("standard_resolution").getInt("height");
                         photo.likesCount = photoJSON.getJSONObject("likes").getInt("count");
@@ -115,10 +126,51 @@ public class PhotosActivity extends ActionBarActivity {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                // DO SOMETHING
                 Log.e("DEBUG", "Fetch popular photos error: " + throwable.toString());
             }
         });
+    }
+
+    private String attemptGetCaption(JSONObject photoJSON){
+        String caption = "";
+
+        try {
+            // Comment:{ "data": [x] => "comments" => "data": [y] => "text"}
+            caption = photoJSON.getJSONObject("caption").getString("text");
+        } catch (Exception e) {
+            caption = "";
+        }
+
+        return caption;
+
+    }
+
+    private String attemptGetComment(JSONObject photoJSON){
+        String comment = "";
+
+        try {
+            // Comment:{ "data": [x] => "comments" => "data": [y] => "text"}
+            comment = photoJSON.getJSONObject("comments").getJSONArray("data").getJSONObject(0).getString("text");
+        } catch (Exception e) {
+            comment = "";
+        }
+
+        return comment;
+
+    }
+
+    private String attemptGetCommenter(JSONObject photoJSON) {
+        String commenter = "";
+
+        try {
+            // Commenter:{ "data": [x] => "comments" => "data": [y] => "text"}
+            commenter = photoJSON.getJSONObject("comments").getJSONArray("data").getJSONObject(0).getJSONObject("from").getString("username");
+        } catch (Exception e) {
+            commenter = "";
+        }
+
+        return commenter;
+
     }
 
     @Override

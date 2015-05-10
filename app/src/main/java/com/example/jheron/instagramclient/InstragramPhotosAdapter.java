@@ -1,6 +1,8 @@
 package com.example.jheron.instagramclient;
 
 import android.content.Context;
+import android.text.Html;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,14 +35,41 @@ public class InstragramPhotosAdapter extends ArrayAdapter<InstagramPhoto> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_photo, parent, false);
         }
         // Lookup the views for populating the data (image, caption)
-        TextView tvCaption = (TextView) convertView.findViewById(R.id.tvCaption);
+        ImageView ivUserPhotoURL = (ImageView) convertView.findViewById(R.id.ivUserImage);
+        TextView tvUser = (TextView) convertView.findViewById(R.id.tvUser);
+        TextView tvDate = (TextView) convertView.findViewById(R.id.tvDate);
+
         ImageView ivPhoto = (ImageView) convertView.findViewById(R.id.ivPhoto);
+
+        TextView tvCaption = (TextView) convertView.findViewById(R.id.tvCaption);
+        TextView tvComment = (TextView) convertView.findViewById(R.id.tvComment);
         // Insert the model data into each of the view items
-        tvCaption.setText(photo.caption);
+
+
+        // insert image using picasso
+        ivUserPhotoURL.setImageResource(0);
+        Picasso.with(getContext()).load(photo.userPhotoURL).transform(new RoundedTransformation(100,20)).placeholder(R.mipmap.ic_launcher).into(ivUserPhotoURL);
+        String formattedUsername = "<b>" + photo.username + "</b>";
+        tvUser.setText(Html.fromHtml(formattedUsername));
+        Date now = new java.util.Date();
+        String then = DateUtils.getRelativeTimeSpanString(
+                photo.datetime*1000,
+                now.getTime(),
+                DateUtils.SECOND_IN_MILLIS).toString();
+        //Log.d("InstagramPhotosAdapter", String.valueOf(now.getTime()) + " " + then );
+        tvDate.setText(then);
+
         // insert image using picasso
         ivPhoto.setImageResource(0);
         Picasso.with(getContext()).load(photo.imageURL).fit().centerCrop().placeholder(R.mipmap.ic_launcher).into(ivPhoto);
+
+        tvCaption.setText(photo.caption);
+
+        String formattedComment = "<b>" + photo.commenter + "</b> " + photo.comment;
+        tvComment.setText(Html.fromHtml(formattedComment));
+
         // return create item as a view
+
         return convertView;
     }
 }

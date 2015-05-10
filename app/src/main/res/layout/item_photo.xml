@@ -7,14 +7,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/ivPhoto"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:adjustViewBounds="true"
-        android:scaleType="fitXY"
+        android:scaleType="fitCenter"
         android:nestedScrollingEnabled="false"
         android:contentDescription="@string/instagram_photo"
-        android:minHeight="100dp" />
+        android:minHeight="100dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="false"
+        android:layout_below="@+id/llUserInfo" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -27,6 +27,55 @@
         android:textSize="20sp"
         android:maxLines="3"
         android:ellipsize="end"
-        android:minHeight="50dp" />
+        android:minHeight="50dp"
+        android:linksClickable="false" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/test"
+        android:id="@+id/tvComment"
+        android:ellipsize="end"
+        android:focusable="false"
+        android:layout_alignRight="@+id/tvCaption"
+        android:layout_alignEnd="@+id/tvCaption"
+        android:layout_below="@+id/tvCaption"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical|center_horizontal"
+        android:id="@+id/llUserInfo">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:id="@+id/ivUserImage"
+            android:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:text="@string/test"
+            android:id="@+id/tvUser"
+            android:gravity="start|center_horizontal"
+            android:textColor="#ff586dff" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/test"
+            android:id="@+id/tvDate"
+            android:layout_alignParentEnd="true"
+            android:gravity="end|center_horizontal"
+            android:layout_gravity="end" />
+
+    </LinearLayout>
 
 </RelativeLayout>
