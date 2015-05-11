@@ -41,6 +41,7 @@ public class InstragramPhotosAdapter extends ArrayAdapter<InstagramPhoto> {
 
         ImageView ivPhoto = (ImageView) convertView.findViewById(R.id.ivPhoto);
 
+        TextView tvLikes = (TextView) convertView.findViewById(R.id.tvLikes);
         TextView tvCaption = (TextView) convertView.findViewById(R.id.tvCaption);
         TextView tvComment = (TextView) convertView.findViewById(R.id.tvComment);
         // Insert the model data into each of the view items
@@ -56,13 +57,13 @@ public class InstragramPhotosAdapter extends ArrayAdapter<InstagramPhoto> {
                 photo.datetime*1000,
                 now.getTime(),
                 DateUtils.SECOND_IN_MILLIS).toString();
-        //Log.d("InstagramPhotosAdapter", String.valueOf(now.getTime()) + " " + then );
-        tvDate.setText("🕒"+ then);
+        tvDate.setText("🕒" + then);
 
         // insert image using picasso
         ivPhoto.setImageResource(0);
         Picasso.with(getContext()).load(photo.imageURL).fit().centerCrop().placeholder(R.mipmap.ic_launcher).into(ivPhoto);
 
+        tvLikes.setText("❤ " + photo.likesCount + " likes");
         tvCaption.setText(photo.caption);
 
         String formattedComment = "<b>" + photo.commenter + "</b> " + photo.comment;
