@@ -57,7 +57,7 @@ public class InstragramPhotosAdapter extends ArrayAdapter<InstagramPhoto> {
                 now.getTime(),
                 DateUtils.SECOND_IN_MILLIS).toString();
         //Log.d("InstagramPhotosAdapter", String.valueOf(now.getTime()) + " " + then );
-        tvDate.setText(then);
+        tvDate.setText("🕒"+ then);
 
         // insert image using picasso
         ivPhoto.setImageResource(0);

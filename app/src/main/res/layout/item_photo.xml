@@ -73,8 +73,7 @@
             android:text="@string/test"
             android:id="@+id/tvDate"
             android:layout_alignParentEnd="true"
-            android:gravity="end|center_horizontal"
-            android:layout_gravity="end" />
+            android:gravity="end|center_horizontal" />
 
     </LinearLayout>
 
